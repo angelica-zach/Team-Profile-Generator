@@ -12,4 +12,121 @@ const render = require("./src/page-template.js");
 
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
+async function promptManager() {
+    console.log('Enter information for the Team Manager:');
+    const answers = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name?',
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: 'What is your Employee Id?',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is your email?',
+      },
+      {
+        type: 'input',
+        name: 'office',
+        message: 'What is your office number?',
+      },
 
+  ])
+  const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
+//   teamMembers.push(manager);
+
+}
+
+async function promptEngineer() {
+    console.log('Enter information for the Engineer:');
+    const answers = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name?',
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: 'What is your Employee Id?',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is your email?',
+      },
+      {
+        type: 'input',
+        name: 'github',
+        message: 'What is your github?',
+      },
+
+  ])
+  const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+//   teamMembers.push(manager);
+await promptMenu();
+}
+
+
+async function promptIntern() {
+    console.log('Enter information for the Intern:');
+    const answers = await inquirer.prompt([
+    {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name?',
+      },
+      {
+        type: 'input',
+        name: 'id',
+        message: 'What is your Employee Id?',
+      },
+      {
+        type: 'input',
+        name: 'email',
+        message: 'What is your email?',
+      },
+      {
+        type: 'input',
+        name: 'school',
+        message: 'What is your school?',
+      },
+
+  ])
+  const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
+//   teamMembers.push(intern);
+await promptMenu();
+}
+
+
+async function promptMenu() {
+    const menuAnswers = await inquirer.prompt({
+      type: 'list',
+      name: 'menu',
+      message: 'What would you like to do next?',
+      choices: ['Add an Engineer', 'Add an Intern', 'Finish building the team'],
+    });
+    switch (menuAnswers.menu) {
+        case 'Add an Engineer':
+        await promptEngineer();
+        break;
+      case 'Add an Intern':
+        await promptIntern();
+        break;
+      case 'Finish building the team':
+        generateHTML(teamMembers);
+        console.log('HTML generated successfully. Team building complete!');
+        break;
+    }}
+
+    async function init() {
+        await promptManager();
+        await promptMenu();
+      }
+      
+      init();
