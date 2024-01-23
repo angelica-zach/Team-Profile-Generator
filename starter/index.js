@@ -9,7 +9,7 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./src/page-template.js");
-
+let team =[];
 
 // TODO: Write Code to gather information about the development team members, and render the HTML file.
 async function promptManager() {
@@ -38,7 +38,7 @@ async function promptManager() {
 
   ])
   const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber);
-//   teamMembers.push(manager);
+ team.push(manager);
 
 }
 
@@ -68,7 +68,7 @@ async function promptEngineer() {
 
   ])
   const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
-//   teamMembers.push(manager);
+ team.push(engineer);
 await promptMenu();
 }
 
@@ -99,7 +99,7 @@ async function promptIntern() {
 
   ])
   const intern = new Intern(answers.name, answers.id, answers.email, answers.school);
-//   teamMembers.push(intern);
+  team.push(intern);
 await promptMenu();
 }
 
@@ -119,7 +119,7 @@ async function promptMenu() {
         await promptIntern();
         break;
       case 'Finish building the team':
-        generateHTML(teamMembers);
+        getHTML(team);
         console.log('HTML generated successfully. Team building complete!');
         break;
     }}
@@ -127,6 +127,12 @@ async function promptMenu() {
     async function init() {
         await promptManager();
         await promptMenu();
+        
       }
       
+       function getHTML(team){
+        // render(team);
+        fs.writeFile(outputPath,render(team));
+      };
+
       init();
